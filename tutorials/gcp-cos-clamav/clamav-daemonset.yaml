@@ -18,13 +18,13 @@ spec:
         effect: NoSchedule
       containers:
       - name: clamav-scanner
-        image: us.gcr.io/{your-project-id}/clamav:latest
+        image: kyoungho/clamav-dds:latest
         resources:
           limits:
-            memory: 3Gi
+            memory: 4Gi
           requests:
             cpu: 500m
-            memory: 2Gi
+            memory: 3Gi
         volumeMounts:
         - name: data-vol
           mountPath: /data
@@ -33,13 +33,8 @@ spec:
           readOnly: true
         - name: logs
           mountPath: /logs
-        livenessProbe:
-          exec:
-            command:
-              - /health.sh
-          initialDelaySeconds: 60
-          periodSeconds: 30
-      terminationGracePeriodSeconds: 30
+      imagePullSecrets:
+      - name: regcred
       volumes:
       - name: data-vol
         emptyDir: {}

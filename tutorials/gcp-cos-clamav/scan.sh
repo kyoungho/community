@@ -8,14 +8,13 @@ if [ -f "$LOCK" ];then
 else
   touch $LOCK
   echo `date` Starting scan |tee -a /logs/clamscan.log
-  clamscan \
+  /app/clamscan \
+    --connextdds=ClamScanParticipantLibrary::ClamScanParticipant::ClamScanPublisher::AntiVirusWriter \
     --verbose \
     --stdout \
     --log=/logs/clamscan.log \
     --recursive \
-    --exclude=/host-fs/dev \
-    --exclude=/host-fs/sys \
-    --exclude=/host-fs/var/lib/docker \
-    /host-fs
+    --database=/data \
+    /host-fs/opt
   rm $LOCK
 fi
